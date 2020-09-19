@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Стихи поэт(эссы) {{ poet.full_name }}{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-2">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              {% if user.is_authenticated %}
+                <p class="small text-right m-0">
+                  <a href="{% url 'add_poem' %}?poet={{ poet.pk }}">Добавить стихотворение</a>
+                  <a href="{% url 'update_poet' poet.pk %}">Редактировать</a>
+                  <a href="{% url 'delete_poet' poet.pk %}" class="text-muted">Удалить</a>
+                </p>
+              {% endif %}
+              <h1 class="text-center mb-5">{{ poet.full_name }}</h1>
+            </div>
+            <div class="col-12 col-lg-4 text-center">
+              <img src="{{ poet.photo_url }}" class="img-fluid" alt="{{ poet.full_name }}">
+            </div>
+            <div class="col-12 col-lg-8">
+              <p>
+                {{ poet.bio|linebreaksbr }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      {% for poem in poems %}
+        <div class="card mb-2">
+          <div class="card-body py-2">
+            <p class="mb-0"><a href="{{ poem.get_absolute_url }}">{{ poem.title }}</a></p>
+          </div>
+        </div>
+        {% if forloop.counter == divide_at %}
+          </div>
+          <div class="col-12 col-md-6">
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+{% endblock content %}

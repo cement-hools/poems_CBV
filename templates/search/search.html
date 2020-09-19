@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Поиск{{ poet.full_name }}{% endblock title %}
+
+{% block content %}
+<h1 class="text-center mb-5">Поиск по стихам и авторам</h1>
+
+<div class="container">
+  <div class="row">
+    
+    <div class="col-12 col-md-10 col-xl-8 mx-auto">
+      
+      <div class="card mb-3">
+        <div class="card-body">
+          <form method="GET" action="">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Что ищем?" aria-label="Search" aria-describedby="button-addon2" name="q" {% if query %}value="{{ query }}"{% endif %}>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit" id="search-button">Искать</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-body">
+          <h4>Результаты поиска:</h4>
+          {% for result in results %}
+            <p><a href="{{ result.get_absolute_url }}">{{ result }}</a></p>
+          {% empty %}
+            {% if search %}
+              <p class="lead">Ничего не найдено :(</p>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock content %}
